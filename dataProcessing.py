@@ -6,13 +6,11 @@ from bokeh.plotting import figure, output_file, show, save
 
 def main():
     # do we have preprocessed data already
-    if os.path.isfile("modifiedData.csv"):
-        # load data to pandas
-        analysis()
-    else:
+    while(os.path.isfile("modifiedData.csv") is False):
         # processing
         pre_pro()
-
+    # load data to pandas
+    analysis()
 
 def analysis():
     m_data = pd.read_csv("modifiedData.csv")
@@ -43,7 +41,7 @@ def pre_pro():
     #print("Count of nulls:\n" + str(sum))
 
     # create new data set out of he original containing only the valid rows
-    # modif_data = data[pd.notnull(data['sold'])]
+    # modif_data = data[pd.notnull(data['downloaded'])]
     modif_data = data.dropna()
     # reassign index
     modif_data.reset_index(drop=True, inplace=True)
@@ -60,7 +58,7 @@ def saveModif(modif_data):
 def vis(data):
 
     hour = data['hour'].tolist()
-    sold = data['sold'].tolist()
+    downloaded = data['downloaded'].tolist()
 
     # output to static HTML file
     output_file("line.html")
@@ -73,13 +71,13 @@ def vis(data):
         p.line(hour, pred, line_width=2, line_color='red')
 
     # add a circle renderer with a size, color, and alpha
-    p.circle(hour, sold, size=5, color="navy", alpha=0.5)
+    p.circle(hour, downloaded, size=5, color="navy", alpha=0.5)
 
     p.xaxis.axis_label = "Hour of Month"
     p.xaxis.axis_label_text_color = "#aa6666"
     p.xaxis.axis_label_standoff = 30
 
-    p.yaxis.axis_label = "Number of books sold"
+    p.yaxis.axis_label = "Number of books downloaded"
     p.yaxis.axis_label_text_font_style = "italic"
 
     # show the results
@@ -109,6 +107,7 @@ def regress(data):
 
     # y = mx + b
     data['prediction'] = data.hour*slope + intercept
+    
     print(data.head())
 
     vis(data)
@@ -119,10 +118,10 @@ def preclaculations(data):
     x_sum = data['hour'].sum()
     print("The sum of the hour values: " + str(x_sum))
     # sum of all the y vals
-    y_sum = data['sold'].sum()
-    print("The sum of the sold values: " + str(y_sum))
+    y_sum = data['downloaded'].sum()
+    print("The sum of the downloaded values: " + str(y_sum))
     # sum of the products of x and y pair
-    products = data.hour * data.sold
+    products = data.hour * data.downloaded
     products_sum = products.sum()
     print("The sum of the products of the xy pairs values: " + str(products_sum))
     # sum of the squares of every X value
@@ -130,9 +129,9 @@ def preclaculations(data):
     sum_x_squares = x_squares.sum()
     print("The sum of the squares for every hour value: " + str(sum_x_squares))
     # sum of the squares of every y value
-    y_squares = data.sold**2
+    y_squares = data.downloaded**2
     sum_y_squares = y_squares.sum()
-    print("The sum of the squares for every sold value: " + str(sum_y_squares))
+    print("The sum of the squares for every downloaded value: " + str(sum_y_squares))
 
     return x_sum, y_sum, products_sum, sum_x_squares, sum_y_squares
 
