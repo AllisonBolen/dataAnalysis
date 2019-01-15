@@ -66,6 +66,10 @@ def vis(data):
     p = figure(plot_width=400, plot_height=400)
 
     if 'prediction' in data.columns:
+<<<<<<< HEAD
+=======
+        print("THISS IS THE PRED LINE")
+>>>>>>> 8c2ad8cf2fb082627789e2319fa89b2313d6a60e
         pred = data['prediction'].tolist()
         p.line(hour, pred, line_width=2, line_color='red')
 
@@ -76,7 +80,11 @@ def vis(data):
     p.xaxis.axis_label_text_color = "#aa6666"
     p.xaxis.axis_label_standoff = 30
 
+<<<<<<< HEAD
     p.yaxis.axis_label = "Number of Books Downloaded"
+=======
+    p.yaxis.axis_label = "Number of books downloaded"
+>>>>>>> 8c2ad8cf2fb082627789e2319fa89b2313d6a60e
     p.yaxis.axis_label_text_font_style = "italic"
 
     # show the results
@@ -93,7 +101,11 @@ def regress(data):
     c = number_of_values * sum_x_squares
 
     a_sub_b = a - b
+<<<<<<< HEAD
     c_sub_sum_x_squares = c - x_sum**2
+=======
+    c_sub_sum_x_squares = c - sum_x_squares
+>>>>>>> 8c2ad8cf2fb082627789e2319fa89b2313d6a60e
 
     slope = a_sub_b / c_sub_sum_x_squares
     print("slope: " + str(slope))
@@ -106,7 +118,11 @@ def regress(data):
 
     # y = mx + b
     data['prediction'] = data.hour*slope + intercept
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 8c2ad8cf2fb082627789e2319fa89b2313d6a60e
     print(data.head())
 
     vis(data)
